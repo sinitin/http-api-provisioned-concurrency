@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Resources:
+    
+  ConcurrencyFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: handler.concurrency
+      Runtime: nodejs12.x
+      CodeUri: ./concurrency
+      AutoPublishAlias: live
+      Timeout: 10
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: 50
+      Events:
+        HelloAPI:
+          Type: HttpApi
+          Properties:
+            Path: /concurrency
+            Method: GET
+    
+  NormalFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: handler.normal
+      Runtime: nodejs12.x
+      CodeUri: ./normal
+      Timeout: 10
+      Events:
+        HelloAPI:
+          Type: HttpApi
+          Properties:
+            Path: /normal
+            Method: GET
+  
+Outputs:
+  Region:
+    Description: "Region"
+    Value: !Ref AWS::Region

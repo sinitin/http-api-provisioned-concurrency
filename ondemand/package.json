@@ -1,5 +1,5 @@
 {
-  "name": "concurrency",
+  "name": "ondemand",
   "version": "1.0.0",
   "description": "",
   "main": "handler.js",

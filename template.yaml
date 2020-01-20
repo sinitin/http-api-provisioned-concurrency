@@ -3,35 +3,37 @@ Transform: 'AWS::Serverless-2016-10-31'
 
 Resources:
     
-  ConcurrencyFunction:
+  ProvisionedFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: handler.concurrency
+      Handler: handler.provisioned
       Runtime: nodejs12.x
-      CodeUri: ./concurrency
+      CodeUri: ./provisioned
       AutoPublishAlias: live
       Timeout: 10
+      Tracing: Active
       ProvisionedConcurrencyConfig:
         ProvisionedConcurrentExecutions: 50
       Events:
         HelloAPI:
           Type: HttpApi
           Properties:
-            Path: /concurrency
+            Path: /provisioned
             Method: GET
     
-  NormalFunction:
+  OndemandFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: handler.normal
+      Handler: handler.ondemand
       Runtime: nodejs12.x
-      CodeUri: ./normal
+      CodeUri: ./ondemand
       Timeout: 10
+      Tracing: Active
       Events:
         HelloAPI:
           Type: HttpApi
           Properties:
-            Path: /normal
+            Path: /ondemand
             Method: GET
   
 Outputs:

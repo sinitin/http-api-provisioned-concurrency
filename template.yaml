@@ -2,6 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 
 Resources:
+
+  MyApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: dev
     
   ProvisionedFunction:
     Type: 'AWS::Serverless::Function'
@@ -10,7 +15,7 @@ Resources:
       Runtime: nodejs12.x
       CodeUri: ./provisioned
       AutoPublishAlias: live
-      Timeout: 10
+      Timeout: 15
       Tracing: Active
       ProvisionedConcurrencyConfig:
         ProvisionedConcurrentExecutions: 50
@@ -20,6 +25,7 @@ Resources:
           Properties:
             Path: /provisioned
             Method: GET
+            ApiId: !Ref MyApi
     
   OndemandFunction:
     Type: 'AWS::Serverless::Function'
@@ -27,7 +33,7 @@ Resources:
       Handler: handler.ondemand
       Runtime: nodejs12.x
       CodeUri: ./ondemand
-      Timeout: 10
+      Timeout: 15
       Tracing: Active
       Events:
         HelloAPI:
@@ -35,8 +41,17 @@ Resources:
           Properties:
             Path: /ondemand
             Method: GET
+            ApiId: !Ref MyApi
   
 Outputs:
   Region:
     Description: "Region"
     Value: !Ref AWS::Region
+    
+  ApiId:
+    Description: "API ID"
+    Value: !Ref MyApi
+
+  ApiUrl:
+    Description: "API endpoint URL for Prod environment"
+    Value: !Sub 'https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/dev/'

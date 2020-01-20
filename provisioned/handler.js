@@ -1,6 +1,6 @@
 const someModule = require('./someModule')
 
-exports.concurrency = async (event) => {
+exports.provisioned = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(event),

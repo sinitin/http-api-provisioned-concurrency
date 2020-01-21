@@ -15,7 +15,7 @@ Resources:
       Runtime: nodejs12.x
       CodeUri: ./provisioned
       AutoPublishAlias: live
-      Timeout: 120
+      Timeout: 240
       Tracing: Active
       ProvisionedConcurrencyConfig:
         ProvisionedConcurrentExecutions: 10
@@ -33,7 +33,7 @@ Resources:
       Handler: handler.ondemand
       Runtime: nodejs12.x
       CodeUri: ./ondemand
-      Timeout: 120
+      Timeout: 240
       Tracing: Active
       Events:
         HelloAPI:
